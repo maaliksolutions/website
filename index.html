@@ -45,18 +45,15 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #0096ff 0%, #00d4ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
             display: flex;
             align-items: center;
             gap: 1rem;
+            z-index: 1001;
         }
 
         .logo-img {
-            width: 60px;
-            height: 60px;
+            width: 45px;
+            height: 45px;
             object-fit: contain;
         }
 
@@ -82,6 +79,22 @@
 
         .nav-links a:hover {
             color: #0096ff;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #0096ff;
+            border-radius: 3px;
+            transition: all 0.3s;
         }
 
         /* Hero Section */
@@ -221,12 +234,6 @@
             font-size: 1.1rem;
             color: #e0e0e0;
             font-weight: 500;
-        }
-
-        .tech-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.8rem;
-            display: block;
         }
 
         .tech-logo {
@@ -421,19 +428,70 @@
                 font-size: 2.5rem;
             }
 
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
             .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
                 flex-direction: column;
-                gap: 1rem;
+                background: rgba(10, 14, 39, 0.98);
+                width: 100%;
+                padding: 2rem;
+                gap: 1.5rem;
+                transition: left 0.3s ease;
+                border-top: 1px solid rgba(0, 150, 255, 0.2);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(0, 150, 255, 0.1);
             }
 
             nav {
-                flex-direction: column;
-                gap: 1rem;
+                padding: 1rem 0;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .logo-img {
+                width: 35px;
+                height: 35px;
             }
 
             .platform-links {
                 flex-direction: column;
                 align-items: center;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
             }
         }
 
@@ -450,12 +508,17 @@
                 <img src="maalik-logo.png" alt="Maalik Solutions Logo" class="logo-img">
                 <span class="logo-text">Maalik Solutions</span>
             </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#technologies">Technologies</a></li>
-                <li><a href="#platforms">Platforms</a></li>
-                <li><a href="#contact">Contact</a></li>
+            <div class="mobile-menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" onclick="closeMenu()">Home</a></li>
+                <li><a href="#services" onclick="closeMenu()">Services</a></li>
+                <li><a href="#technologies" onclick="closeMenu()">Technologies</a></li>
+                <li><a href="#platforms" onclick="closeMenu()">Platforms</a></li>
+                <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -591,14 +654,11 @@
                 <div class="contact-form">
                     <h3>Send Us a Message</h3>
                     <form action="https://formsubmit.co/info@maalik-solutions.com" method="POST">
-                        <!-- Honeypot -->
+                        <!-- Honeypot for spam protection -->
                         <input type="text" name="_honey" style="display:none">
                         
                         <!-- Disable Captcha -->
                         <input type="hidden" name="_captcha" value="false">
-                        
-                        <!-- Success Page -->
-                        <input type="hidden" name="_next" value="https://yourdomain.com/#contact">
                         
                         <!-- Subject -->
                         <input type="hidden" name="_subject" value="New contact from Maalik Solutions website!">
@@ -666,3 +726,31 @@
 
     <footer>
         <div class="container">
+            <p>&copy; 2024 Maalik Solutions. All rights reserved. | Transforming Ideas into Reality</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const nav = document.querySelector('nav');
+            
+            if (!nav.contains(event.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
